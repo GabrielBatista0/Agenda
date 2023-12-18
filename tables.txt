@@ -1,0 +1,18 @@
+create table turma (
+   id int not null auto_increment,
+   nome varchar(100) not null,
+   turno varchar(100) not null,
+   primary key(id)
+);
+
+create table evento (
+   id int not null auto_increment,
+   titulo varchar(100) not null,
+   turma int not null,
+   data_inicio datetime not null,
+   data_fim datetime not null,
+   local varchar(100) not null,
+   instrutor varchar(100) not null,
+   descricao varchar(150) not null
+   primary key(id)
+);
