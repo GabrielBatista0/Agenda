@@ -35,7 +35,7 @@ public class SecurityConfigurations {
                         (SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req-> {
                     req.requestMatchers(CorsUtils::isCorsRequest).permitAll();
-                    req.requestMatchers(HttpMethod.POST, "/login").permitAll();
+                    req.requestMatchers(HttpMethod.POST, "/login/**").permitAll();
                     req.requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
                                     .requestMatchers(HttpMethod.GET,"/v3/api-docs/**","swagger-ui.html","swagger-ui/**").permitAll();
                     req.anyRequest().authenticated();
