@@ -52,6 +52,9 @@ public class AgendarEvento {
         try {
 
         eventos.forEach(DadosCadEvento ->{
+            if (!turmaRepository.existsById(DadosCadEvento.id_turma())){
+                throw new RuntimeException("A turma não existe");
+            }
             var turma = turmaRepository.findById(DadosCadEvento.id_turma()).get();
             var evento = new Evento(
                     0,

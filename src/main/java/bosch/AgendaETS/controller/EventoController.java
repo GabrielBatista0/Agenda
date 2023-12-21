@@ -99,7 +99,7 @@ public class EventoController {
             return new ResponseEntity<List<DadosEvento>>(listaDadosEvento,HttpStatus.CREATED);
         }
         catch (Exception e){
-            return new ResponseEntity<>(listaDadosEvento,HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
