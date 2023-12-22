@@ -20,7 +20,6 @@ import java.sql.PreparedStatement;
 
 @RestController
 @RequestMapping("/turma")
-@CrossOrigin("*") //Consumir via codigo
 public class TurmaController {
     @Autowired
     private TurmaRepository repository;

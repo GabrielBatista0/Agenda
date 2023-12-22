@@ -21,6 +21,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfigurations {
@@ -30,22 +32,35 @@ public class SecurityConfigurations {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
+                .cors(withDefaults())
                 .csrf(csrf-> csrf.disable())
                 .sessionManagement(sm-> sm.sessionCreationPolicy
                         (SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req-> {
-                    req.requestMatchers(CorsUtils::isCorsRequest).permitAll();
                     req.requestMatchers(HttpMethod.POST, "/login/**").permitAll();
-                    req.requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
-                                    .requestMatchers(HttpMethod.GET,"/v3/api-docs/**","swagger-ui.html","swagger-ui/**").permitAll();
+                    req.requestMatchers(HttpMethod.POST, "/usuarios").permitAll();
+                    req.requestMatchers(HttpMethod.GET,"/v3/api-docs/**","swagger-ui.html","swagger-ui/**").permitAll();
+//                    req.requestMatchers(CorsUtils::isCorsRequest).permitAll();
                     req.anyRequest().authenticated();
-                }).addFilterBefore(securityFilters, UsernamePasswordAuthenticationFilter.class).build();
+                })
+                .addFilterBefore(securityFilters, UsernamePasswordAuthenticationFilter.class).build();
     }
+//    @Bean
+//    CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration configuration = new CorsConfiguration();
+//        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000","http://localhost:5173"));
+//        configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","PATCH"));
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", configuration);
+//        return source;
+//    }
     @Bean
-    CorsConfigurationSource corsConfigurationSource() {
+    public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("https://example.com", "http://localhost:3000"));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","PATCH"));
+        configuration.addAllowedOrigin("*");
+        configuration.addAllowedMethod("*");
+        configuration.addAllowedHeader("*");
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
